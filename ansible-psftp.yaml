@@ -1,0 +1,19 @@
+---
+- name: Transfer file using PsFTP
+  hosts: "{{ source_managed_host }}"
+  vars:
+    source_managed_host: 
+    destination_managed_host: 
+    psftp_username: 
+    psftp_password: 
+    local_file_path: 
+    remote_file_path: /home
+
+  tasks:
+    - name: Run PsFTP to upload file
+      script: |
+        psftp {{ psftp_username }}@{{ destination_managed_host }} -pw {{ psftp_password }} << EOF
+        put {{ local_file_path }} {{ remote_file_path }}
+        bye
+        EOF
+      delegate_to: localhost
